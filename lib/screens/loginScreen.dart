@@ -9,7 +9,7 @@ import '../../../helpers/widgets/online_tribes/main_button.dart';
 import '../../../helpers/widgets/online_tribes/custom_Checkbox.dart';
 
 import '../controller.dart';
-import 'chat.dart';
+import 'chatscreen.dart';
 
 /* class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key); */

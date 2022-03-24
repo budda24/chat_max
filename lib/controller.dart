@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'helpers/theme/alert_styles.dart';
 import 'infrastructure/auth.dart';
 import 'infrastructure/datebase.dart';
+import 'screens/chatscreen.dart';
+import 'screens/loginScreen.dart';
 
 class LoginController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey();
@@ -71,8 +73,11 @@ class LoginController extends GetxController {
               .signInWithEmailAndPassword(
                   email: emailController.text,
                   password: passwordController.text)
-              .then((value) {});
+              .then((value) {
+            Get.to(ChatScreen());
+          });
         } on FirebaseAuthException catch (error) {
+          Get.to(LoginView());
           customSnackbar("Sign in failed because ${error.message ?? ''}");
         }
       }
@@ -88,8 +93,9 @@ class LoginController extends GetxController {
             email: emailController.text, password: passwordController.text);
         print(userCredential.user!.uid);
         if (userCredential.user != null) {
-        await  Database()
-              .createUser(userCredential.user!.uid,emailController.text, userNameController.text);
+          await Database().createUser(userCredential.user!.uid,
+              emailController.text, userNameController.text);
+          Get.to(ChatScreen());
         }
       } else {
         Get.showSnackbar(customSnackbar('Email Already Exists'));
@@ -99,4 +105,15 @@ class LoginController extends GetxController {
           customSnackbar('Sign up failed because ${error.message}'));
     }
   }
+
+  RxString name = ''.obs;
+  Future<void> getName() async {
+    name.value = await Database().featchUser(auth.currentUser!.uid);
+  }
+
+/*   @override
+  void onInit() async {
+    await getName();
+    super.onInit();
+  } */
 }

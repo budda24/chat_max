@@ -1,10 +1,12 @@
 import 'package:chat/controller.dart';
+import 'package:chat/screens/chatscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'bindings.dart';
-import 'screens/login.dart';
+import 'infrastructure/auth.dart';
+import 'screens/loginScreen.dart';
 
 
 void main() async{
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
        getPages: [
-         GetPage(name: '/', page: ()=>LoginView(),binding: LoginBinding() )
+         GetPage(name: '/', page: ()=> /* auth.currentUser == null ? */ LoginView()/*:  ChatScreen() */,binding: LoginBinding() )
        ],
     );
   }

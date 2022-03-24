@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'datebase.dart';
+
 final auth = FirebaseAuth.instance;
 class Auth{
   Future<void> logInExistingUser(String email, String password) async {
@@ -26,7 +28,7 @@ class Auth{
   }
 }
 
- Future<void> createUserToAuth(String email, String password) async {
+ Future<void> createUserToAuth(String email, String password, String name) async {
     try {
       final List userEmails =
           await auth.fetchSignInMethodsForEmail(email );
@@ -34,10 +36,10 @@ class Auth{
         final userCredential = await auth.createUserWithEmailAndPassword(
             email:email, password: password);
         print(userCredential.user!.uid);
-        /* if (userCredential.user != null) {
-          user.id = userCredential.user!.uid;
-          await Database().createUser(user);
-        } */
+        if (userCredential.user != null) {
+          /* user.id = userCredential.user!.uid; */
+          await Database().createUser(auth.currentUser!.uid, email, name);
+        }
       } else {
          Get.showSnackbar(customSnackbar('Email Already Exists'));
       }
